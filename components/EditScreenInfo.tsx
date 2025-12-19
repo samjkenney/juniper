@@ -10,7 +10,7 @@ import Colors from '@/constants/Colors';
 export default function EditScreenInfo({ path }: { path: string }) {
   return (
     <View>
-      <View style={styles.getStartedContainer}>
+      <View style={styles.getStartedContainer} lightColor = "#afc068">
         <Text
           style={styles.getStartedText}
           lightColor="rgba(0,0,0,0.8)"
