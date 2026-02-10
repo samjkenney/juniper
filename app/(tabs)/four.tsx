@@ -1,18 +1,14 @@
 import { StyleSheet, TextInput, Button } from 'react-native';
 import {useState} from 'react';
-import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import DropDownPicker from 'react-native-dropdown-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 
-export default function TabTwoScreen() {
-  const inputState = {
-    symptom: '',
-    time: '',
-    severity: '',
+export default function TabFourScreen(){
+    const inputState = {
+    time_start: '',
+    time_stop: '',
+    quality: '',
     notes: ''
   };
 
@@ -30,21 +26,13 @@ export default function TabTwoScreen() {
     console.log('Saved!');
     console.log(inputs);
     const jsonVal = JSON.stringify(inputs);
-    const key = "symptom-" + inputs['time'];
+    const key = "sleep-" + inputs['time_stop'];
     storeData(key, jsonVal);
     setInputs(inputState);
   }
   
   const handleOnChange = (text: string, input: string) => {
     setInputs(prevState => ({...prevState, [input]: text}));
-  }
-
-  const handleTime = (value: Date) => {
-    handleOnChange(value.toLocaleDateString(), 'time');
-  }
-
-  const handleSymptom = (input: any) => {
-    handleOnChange(input, 'symptom');
   }
 
   const getData = async () => {
@@ -58,52 +46,35 @@ export default function TabTwoScreen() {
     }
   };
 
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    {label: 'Nausea', value: 'nausea'},
-    {label: 'Pain (general)', value: 'general_pain'},
-    {label: 'Headache', value: 'headache'},
-    {label: 'Dizziness', value: 'dizziness'},
-    {label: 'Fatigue', value: 'fatigue'},
-  ]);
 
- 
-  return (
+
+    return(
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Text> Symptom: </Text>
-      <DropDownPicker
-        open={open}
-        items={items}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
-        onChangeValue = {(value) => handleSymptom(value)}
-        value={ value }
-      />
-      <Text> Severity: </Text>
-      <TextInput onChangeText = {text => handleOnChange(text, 'severity')}
-        value = {inputs['severity']}
-        keyboardType = "numeric"
-        />
-      <Text> Time: </Text>
-      <TextInput
-          onChangeText = {text => handleOnChange(text, 'time')}
-          value = {inputs['time']}
-          />
+      <Text>What was your sleep time?</Text>
+      <Text> Went to bed at: </Text>
+        <TextInput
+         onChangeText = {text => handleOnChange(text, 'time_start')}
+         value = { inputs['time_start'] }/>
+        <Text> Woke up at:</Text>
+        <TextInput 
+        onChangeText = {text => handleOnChange(text, 'time_stop')}
+        value = { inputs['time_stop']}/>
+      <Text> Quality: </Text>
+      <TextInput 
+      onChangeText = {text => handleOnChange(text, 'quality')}
+      value = {inputs['quality']}/>
       <Text> Notes: </Text>
       <TextInput
         onChangeText = {text => handleOnChange(text, 'notes')}
-        value= {inputs['notes']}/>
+        value = { inputs['notes'] }/>
       <Button title = "Save" onPress={() => saveData()}/>
       <Button title = "Get text" onPress={() => getData()}/>
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
     </View>
   );
-}
 
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,

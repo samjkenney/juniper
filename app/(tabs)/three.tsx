@@ -1,11 +1,15 @@
 import { StyleSheet, TextInput, Button } from 'react-native';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function TabThreeScreen(){
+    useEffect(() => {
+        getData()
+    });
+
     const getData = async () => {
         try {
             const keys = await AsyncStorage.getAllKeys();
@@ -27,8 +31,6 @@ export default function TabThreeScreen(){
     return(
         <View>
             <Text> Hi, this is tab three</Text>
-            <Button title = "Get text" onPress={() => getData()}/>
-            <Text>{ keys }</Text>
             <Text>{ values }</Text>
         </View>
     );
