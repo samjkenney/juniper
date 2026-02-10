@@ -3,6 +3,7 @@ import {useState} from 'react';
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 
 
@@ -36,6 +37,10 @@ export default function TabTwoScreen() {
     setInputs(prevState => ({...prevState, [input]: text}));
   }
 
+  const handleSymptom = (input: any) => {
+    handleOnChange(input, 'symptom');
+  }
+
   const getData = async () => {
     try {
       const keys = await AsyncStorage.getAllKeys();
@@ -47,12 +52,30 @@ export default function TabTwoScreen() {
     }
   };
 
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Nausea', value: 'nausea'},
+    {label: 'Pain (general)', value: 'general_pain'},
+    {label: 'Headache', value: 'headache'},
+    {label: 'Dizziness', value: 'dizziness'},
+    {label: 'Fatigue', value: 'fatigue'},
+  ]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Text> Symptom: </Text>
-      <TextInput onChangeText={text => handleOnChange(text, 'symptom')}/>
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        onChangeValue = {(value) => handleSymptom(value)}
+      />
       <Text> Severity: </Text>
       <TextInput onChangeText = {text => handleOnChange(text, 'severity')}/>
       <Text> Time: </Text>
