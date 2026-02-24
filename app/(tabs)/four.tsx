@@ -3,9 +3,8 @@ import {useState} from 'react';
 import { Text, View } from '@/components/Themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 export default function TabFourScreen(){
-    const inputState = {
+  const inputState = {
     time_start: '',
     time_stop: '',
     quality: '',
@@ -26,7 +25,7 @@ export default function TabFourScreen(){
     console.log('Saved!');
     console.log(inputs);
     const jsonVal = JSON.stringify(inputs);
-    const key = "sleep-" + inputs['time_stop'];
+    const key = "sleep-" + inputs.time_stop;
     storeData(key, jsonVal);
     setInputs(inputState);
   }
@@ -35,22 +34,10 @@ export default function TabFourScreen(){
     setInputs(prevState => ({...prevState, [input]: text}));
   }
 
-  const getData = async () => {
-    try {
-      const keys = await AsyncStorage.getAllKeys();
-      const result = await AsyncStorage.multiGet(keys);
-      console.log('All keys:', keys);
-      console.log('All results:', result);
-    } catch (e) {
-      console.log('error');
-    }
-  };
 
-
-
-    return(
+  return(
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
+      <Text style={styles.title}>Sleep</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Text>What was your sleep time?</Text>
       <Text> Went to bed at: </Text>
@@ -70,11 +57,10 @@ export default function TabFourScreen(){
         onChangeText = {text => handleOnChange(text, 'notes')}
         value = { inputs['notes'] }/>
       <Button title = "Save" onPress={() => saveData()}/>
-      <Button title = "Get text" onPress={() => getData()}/>
     </View>
   );
-
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
