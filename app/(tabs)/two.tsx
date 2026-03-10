@@ -1,22 +1,24 @@
-import { StyleSheet, TextInput, Button } from 'react-native';
+import { StyleSheet, TextInput, Button, Modal } from 'react-native';
 import {useState} from 'react';
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DropDownPicker from 'react-native-dropdown-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import RNDateTimePicker from '@react-native-community/datetimepicker';
-
+import DatePicker from 'react-native-date-picker';
+import { Checkbox } from 'expo-checkbox';
+import styles from '../styles';
 
 export default function TabTwoScreen() {
   const inputState = {
     symptom: '',
-    time: '',
+    time: new Date(),
     severity: '',
     notes: ''
   };
 
+
   const [inputs, setInputs] = useState(inputState);
+
 
   async function storeData(key: string, val: string){
     try {
@@ -59,6 +61,7 @@ export default function TabTwoScreen() {
   };
 
   const [open, setOpen] = useState(false);
+  const [dateOpen, setDateOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
     {label: 'Nausea', value: 'nausea'},
@@ -68,55 +71,61 @@ export default function TabTwoScreen() {
     {label: 'Fatigue', value: 'fatigue'},
   ]);
 
- 
+ const [isChecked, setChecked] = useState(false);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Text> Symptom: </Text>
+    <View style = {styles.container }>
+    <View style={styles.dropdownContainer}>
+      <Text style = { styles.categories}> Symptom: </Text>
       <DropDownPicker
-        open={open}
+        style = {styles.dropdown}
+        open={ open}
         items={items}
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
         onChangeValue = {(value) => handleSymptom(value)}
         value={ value }
+        searchable = {true}
+        zIndex={ 2000 }
       />
-      <Text> Severity: </Text>
-      <TextInput onChangeText = {text => handleOnChange(text, 'severity')}
+      </View>
+      <View style = {styles.inputContainer}>
+      <Text style = {styles.categories}> Severity: </Text>
+      <TextInput style = {styles.entry}
+        onChangeText = {text => handleOnChange(text, 'severity')}
         value = {inputs['severity']}
         keyboardType = "numeric"
         />
-      <Text> Time: </Text>
+      </View>
+      <View style = {styles.inputContainer}>
+      <Text style = {styles.categories}> Time Start: </Text>
+      <DatePicker
+        style = {styles.entry}
+        modal
+        open={dateOpen }
+        mode = "datetime"
+        date = { inputs.time }
+        onConfirm={(date) => {
+          handleTime(date);
+        }}
+        onCancel={() => {
+          setOpen(false)
+        }}
+        />
+      </View>
+      <View style = {styles.inputContainer}>
+        <Text style = {styles.categories}>Ongoing? </Text>
+        <Checkbox style = {styles.checkbox} value={isChecked} onValueChange= {setChecked}/>
+      </View>
+      <View style = { styles.inputContainer }>
+        <Text style = {styles.categories}> Notes: </Text>
       <TextInput
-          onChangeText = {text => handleOnChange(text, 'time')}
-          value = {inputs['time']}
-          />
-      <Text> Notes: </Text>
-      <TextInput
+        style = {styles.entry}
         onChangeText = {text => handleOnChange(text, 'notes')}
         value= {inputs['notes']}/>
+      </View>
       <Button title = "Save" onPress={() => saveData()}/>
-      <Button title = "Get text" onPress={() => getData()}/>
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
-    </View>
+      </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});

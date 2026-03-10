@@ -14,8 +14,16 @@ function parseValues(values: string){
     //split based into values for each entry
     for (var i = 0; i < clean_values.length; i++){
         split_values[i] = clean_values[i].split(',');
+            //split_values[i][j] = split_values[i][j].replaceAll(':', '');  
     }
-    return removeEmpty(split_values);
+    var noEmpty = removeEmpty(split_values);
+    for (var i = 0; i < noEmpty.length; i++){
+        for (var j = 0; j < noEmpty[i].length; j++){
+            noEmpty[i][j] = noEmpty[i][j].replaceAll(':\"', '');
+            noEmpty[i][j] = noEmpty[i][j].replaceAll('{', '\n');
+        }
+    }
+    return noEmpty;
 }
 
 function checkNotEmpty(split_value: string){
@@ -70,6 +78,9 @@ export default function TabThreeScreen(){
             setvalues(result.toString());
 
             console.log('All results:', result);
+
+            const parseResult = JSON.parse(result.toString());
+            console.log('parsed results from JSON:', parseResult);
         } catch (e) {
             console.log('error');
         }
@@ -93,6 +104,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  entry: {
+    backgroundColor : "#afc06b"
   },
   title: {
     fontSize: 20,
