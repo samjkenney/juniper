@@ -20,6 +20,7 @@ function getSleep(values: string[]){
 
 export default function TabThreeScreen(){
     const results : string[] = [];
+    const resString: string = results.toString();
 
     const getData = async () => {
         try {
@@ -42,10 +43,15 @@ export default function TabThreeScreen(){
         catch{
            console.log("NO!") 
         };
-}
 
-     const [keys, setkeys] = useState("");
-    const [values, setvalues] = useState([['']]);
+    }
+
+    function getResultText(){
+        return(resString);
+    }
+
+    const [keys, setkeys] = useState("");
+    const [values, setvalues] = useState(results);
     
     useEffect(() => {
         getData()
@@ -56,6 +62,7 @@ export default function TabThreeScreen(){
     return(
         <View>
             <Text style = {styles.title}> Symptoms:</Text>
+            <Text> { values }</Text>
             <Text style = {styles.title}> Sleep: </Text>
         </View>
     );
