@@ -1,13 +1,14 @@
-import { StyleSheet, TextInput, Button } from 'react-native';
-import {useEffect, useLayoutEffect, useMemo, useState} from 'react';
-import EditScreenInfo from '@/components/EditScreenInfo';
+import { StyleSheet } from 'react-native';
+import {useEffect, useState} from 'react';
 import { Text, View } from '@/components/Themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import DropDownPicker from 'react-native-dropdown-picker';
-import { parse } from 'expo-linking';
-import { KeyValuePair } from '@react-native-async-storage/async-storage/lib/typescript/types';
 
+/// Cleaning text for display
 
+// By convention, the data is identified in types by the 0th element
+// Relevant data is stored at odd indeces
+// Symptom data has symptom, time start, severity, and notes (right now)
+// Sleep data has start time, stop time, quality, and notes
 
 function checkSleep(values: string[]){
     return (values[0].includes('sleep'));
@@ -20,8 +21,6 @@ function getSleep(values: string[]){
 
 export default function TabThreeScreen(){
     const results : string[] = [];
-    const resString: string = results.toString();
-
     const getData = async () => {
         try {
             const keys = await AsyncStorage.getAllKeys();
@@ -46,13 +45,10 @@ export default function TabThreeScreen(){
 
     }
 
-    function getResultText(){
-        return(resString);
-    }
-
     const [keys, setkeys] = useState("");
     const [values, setvalues] = useState(results);
     
+    //on first load, get data
     useEffect(() => {
         getData()
     },[]);
