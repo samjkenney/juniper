@@ -73,14 +73,20 @@ export default function TabThreeScreen(){
         try {
             const keys = await AsyncStorage.getAllKeys();
             const result = await AsyncStorage.multiGet(keys);
-        
+            const allRes = [];
+            for (var i = 0; i < keys.length; i++){
+                const thisRes = await AsyncStorage.getItem(keys[i]);
+                if (thisRes != null){
+                    allRes.push(JSON.parse(thisRes));
+                }          
+            }
             setkeys(keys.toString());
             setvalues(result.toString());
 
             console.log('All results:', result);
-
-            const parseResult = JSON.parse(result.toString());
-            console.log('parsed results from JSON:', parseResult);
+            const strResult = result.toString();
+            console.log('String form:', strResult);
+            console.log('parsed results from JSON:', allRes);
         } catch (e) {
             console.log('error');
         }
