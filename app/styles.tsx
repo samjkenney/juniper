@@ -64,6 +64,12 @@ const styles = StyleSheet.create({
     flex: 0.75,
     width: 350,
     zIndex: 999
+  },
+  pageHeader: {
+    marginBottom: 10,
+    color: '#eeeeee',
+    fontSize: 40,
+    fontWeight: 'bold'
   }
 });
 
