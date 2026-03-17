@@ -26,6 +26,10 @@ export default function FactorsScreen(){
     }
     };
 
+    function handleFactors(val: boolean, factor: string){
+        setFactors(prevState => ({...prevState, [factor]: val}));
+    }
+
     function saveData(){
         console.log('Saved!');
         console.log(factors);
@@ -38,31 +42,22 @@ export default function FactorsScreen(){
     return(
         <View style = {styles.container}>
             <Text style = {styles.pageHeader}> What factors do you want to track? </Text>
-            <View style = {styles.inputContainer}>
-                <TouchableHighlight activeOpacity={ 0.6} underlayColor={'#C7EF2A'}>
+                <Pressable onPress = {() => handleFactors(!factors.sleep, 'sleep')} style = {[styles.inputContainer, {backgroundColor: factors.sleep ? "#C7Ef2a": "#afc06b"}]}>
                     <Text style = {styles.categories}> Sleep </Text>
-                </TouchableHighlight>
-            </View>
-            <View style = {styles.inputContainer}>
-                <Pressable>
+                </Pressable>
+                <Pressable onPress = {() => handleFactors(!factors.sleep, 'diet')} style = {[styles.inputContainer, {backgroundColor: factors.diet ? "#C7Ef2a": "#afc06b"}]}>
                     <Text style = {styles.categories}> Diet </Text>
                 </Pressable>
-            </View>
-            <View style = {styles.inputContainer}>
-                <Pressable>
+                <Pressable onPress = {() => handleFactors(!factors.sleep, 'meds')} style = {[styles.inputContainer, {backgroundColor: factors.meds ? "#C7Ef2a": "#afc06b"}]}>
                     <Text style = {styles.categories}> Medications & Remedies </Text>
                 </Pressable>
-            </View>
-            <View style = {styles.inputContainer}>
-                <Pressable>
+                <Pressable onPress = {() => handleFactors(!factors.mood, 'mood')} style = {[styles.inputContainer, {backgroundColor: factors.mood ? "#C7Ef2a": "#afc06b"}]}>
                     <Text style = {styles.categories}> Mood & Stress </Text>
                 </Pressable>
-            </View>
-            <View style = {styles.inputContainer}>
-                <Pressable>
+                <Pressable onPress = {() => handleFactors(!factors.weather, 'weather')} style = {[styles.inputContainer, {backgroundColor: factors.weather ? "#C7Ef2a": "#afc06b"}]}>
                     <Text style = {styles.categories}> Weather </Text>
                 </Pressable>
-            </View>
+            <Button title = "Save"  onPress={() => saveData()}/>
         </View>
     )
 
