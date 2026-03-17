@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Pressable, TouchableHighlight } from 'react-native';
+import { Button, Pressable } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
@@ -60,9 +60,4 @@ export default function FactorsScreen(){
             <Button title = "Save"  onPress={() => saveData()}/>
         </View>
     )
-
-    //create a view of all available factors as pressable objects (maybe w checkboxes?)
-    // onPress -> corresponding factor should toggle (change from true to false or false to true)
-    // add highlight to indicate what is pressed
-    // save button saves the data to async storage and routes to next page
 }
