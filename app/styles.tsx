@@ -7,7 +7,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor : "#072511",
-    zIndex: 1
+    zIndex: 1,
+    position: 'relative',
+    height: 'auto'
   },
   entry: {
     backgroundColor : "#287f45",
@@ -44,9 +46,11 @@ const styles = StyleSheet.create({
     marginBottom: 10, 
     backgroundColor: '#afc06b',
     borderRadius: 25,
-    flex: 0.75,
+    flex: 1,
     width: 350,
-    zIndex: 2
+    zIndex: 2,
+    flexDirection: 'column',
+    flexGrow: 0.75,
   },
   dropdown: {
     backgroundColor: "#287f45",
