@@ -10,13 +10,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Symptom data has symptom, time start, severity, and notes (right now)
 // Sleep data has start time, stop time, quality, and notes
 
-function checkSleep(values: string[]){
-    return (values[0].includes('sleep'));
+function getSymptoms(values: string){
+    return (values.includes('symptom-'));
 }
 
-function getSleep(values: string[]){
-
-}
 
 
 export default function TabThreeScreen(){
@@ -24,10 +21,11 @@ export default function TabThreeScreen(){
     const getData = async () => {
         try {
             const keys = await AsyncStorage.getAllKeys();
-            console.log("How many keys?", keys.length);
-            for (var i = 0; i < keys.length; i++){
+            const symptomKeys = keys.filter(getSymptoms);
+            console.log("How many keys?", symptomKeys.length);
+            for (var i = 0; i < symptomKeys.length; i++){
                 console.log('I:', i);
-                var thisRes = await AsyncStorage.getItem(keys[i]);
+                var thisRes = await AsyncStorage.getItem(symptomKeys[i]);
                 console.log('Result', thisRes);
                 
                 if (thisRes != null){
@@ -35,9 +33,10 @@ export default function TabThreeScreen(){
                 
                 }
             }
-            setkeys(keys.toString());   
-            console.log("Keys:", keys);    
+            setkeys(symptomKeys.toString());     
             console.log(results);
+            setvalues(results);
+            console.log('values:', values);
          }
         catch{
            console.log("NO!") 

@@ -36,7 +36,7 @@ export default function FactorsScreen(){
         const jsonVal = JSON.stringify(factors);
         const key = "factors";
         storeData(key, jsonVal);
-        router.navigate('/(tabs)/two');
+        router.navigate('/(tabs)/symptom');
     };
 
     return(

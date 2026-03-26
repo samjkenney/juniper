@@ -43,8 +43,24 @@ function handleButtonPress(){
     console.log(symptoms);
 }
 
+function saveData(){
+        console.log('Saved!');
+        console.log(symptoms);
+        const jsonVal = JSON.stringify(symptoms);
+        const key = "symptoms";
+        storeData(key, jsonVal);
+        router.navigate('/(tabs)/two');
+    };
+
+async function storeData(key: string, val: string){
+    try {
+      await AsyncStorage.setItem(key, val);
+    } catch (e) {
+
+    }
+    };
+
 return(
-    <ScrollView>
     <View style = { styles.container }>
         <Text style = { styles.pageHeader}> What symptoms do you experience frequently? </Text>
         <Pressable onPress = {() => handleSymptomChange(!symptoms.nausea, 'nausea')} style = {[styles.inputContainer, {backgroundColor: symptoms.nausea ? "#C7Ef2a": "#afc06b"}]}>
@@ -62,22 +78,7 @@ return(
         <Pressable onPress = {() => handleSymptomChange(!symptoms.fatigue, 'fatigue')} style = {[styles.inputContainer, {backgroundColor: symptoms.fatigue ? "#C7Ef2a": "#afc06b"}]}>
                     <Text style = {styles.categories}> Fatigue </Text>
         </Pressable>
-        <View style = {[styles.inputContainer, {height : 900}]}>
-            <Text style = {styles.title}>
-                Additional Symptoms:
-            </Text>
-            <TextInput style = { styles.entry }
-            onChangeText = {text => setTextEntry(text)}
-            value = { textEntry }
-            />
-         <Button title="Add New" onPress={handleButtonPress} />
-            <View style = {styles.inputContainer}> 
-                {  Object.keys(symptoms).map((item, index) => (
-                    <Text style = {styles.categories}> {item} </Text>
-                ))}
-            </View>
-        </View>
+        <Button title = "Save"  onPress={() => saveData()}/>
     </View>
-    </ScrollView>
 )
 };
